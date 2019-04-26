@@ -23,7 +23,13 @@ namespace GausKrugerTo4326Bug
             var geometryConverter = new GeometryConverter();
 
             var sourceWkt = SourceWktTextBox.Text;
-            var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 3857);
+            //var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 3857);
+            var reprojectedWkt = geometryConverter.ReprojectGeometry(
+                sourceWkt,
+                // 4326
+                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ",
+                // 31462
+                "+proj=tmerc +lat_0=0 +lon_0=6 +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs ");
             DestinationWktTextBox.Text = reprojectedWkt;
         }
     }

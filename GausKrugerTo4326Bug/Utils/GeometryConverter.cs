@@ -1,4 +1,5 @@
-﻿using NetTopologySuite.Geometries;
+﻿using DotSpatial.Projections;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,9 @@ namespace GausKrugerTo4326Bug.Utils
             return wkt;
         }
 
-        // Source: https://gis.stackexchange.com/questions/127374/coordinate-transformation-reprojection-using-dotspatial
-        public Geometry ReprojectGeometry(Geometry geometry, int sourceEpsgCode, int targetEpsgCode)
+        private Geometry ReprojectGeometry(Geometry geometry, ProjectionInfo sourceProjectionInfo, ProjectionInfo targetProjectionInfo)
         {
             var cloneGeometry = geometry.Copy();
-            var sourceProjection = DotSpatial.Projections.ProjectionInfo.FromEpsgCode(sourceEpsgCode);
-            var targetProjection = DotSpatial.Projections.ProjectionInfo.FromEpsgCode(targetEpsgCode);
             double[] pointArray = new double[cloneGeometry.Coordinates.Count() * 2];
             double[] zArray = new double[] { 1 };
 
@@ -47,7 +45,7 @@ namespace GausKrugerTo4326Bug.Utils
                 counterY = counterY + 2;
             }
 
-            DotSpatial.Projections.Reproject.ReprojectPoints(pointArray, zArray, sourceProjection, targetProjection, 0, (pointArray.Length / 2));
+            Reproject.ReprojectPoints(pointArray, zArray, sourceProjectionInfo, targetProjectionInfo, 0, (pointArray.Length / 2));
 
             counterX = 0;
             counterY = 1;
@@ -63,8 +61,35 @@ namespace GausKrugerTo4326Bug.Utils
             return cloneGeometry as Geometry;
         }
 
+        // Source: https://gis.stackexchange.com/questions/127374/coordinate-transformation-reprojection-using-dotspatial
+        public Geometry ReprojectGeometry(Geometry geometry, int sourceEpsgCode, int targetEpsgCode)
+        {
+            var sourceProjection = ProjectionInfo.FromEpsgCode(sourceEpsgCode);
+            var targetProjection = ProjectionInfo.FromEpsgCode(targetEpsgCode);
+
+            return ReprojectGeometry(geometry, sourceProjection, targetProjection);
+        }
+
+        public Geometry ReprojectGeometry(Geometry geometry, string sourceEpsgCode, string targetEpsgCode)
+        {
+            var sourceProjection = ProjectionInfo.FromProj4String(sourceEpsgCode);
+            var targetProjection = ProjectionInfo.FromProj4String(targetEpsgCode);
+
+            return ReprojectGeometry(geometry, sourceProjection, targetProjection);
+        }
+
 
         public string ReprojectGeometry(string wkt, int sourceEpsgCode, int targetEpsgCode)
+        {
+            var geometry = Wkt2Geometry(wkt);
+
+            var reprojectedGeometry = ReprojectGeometry(geometry, sourceEpsgCode, targetEpsgCode);
+            var reprojectedWkt = Geometry2Wkt(reprojectedGeometry);
+
+            return reprojectedWkt;
+        }
+
+        public string ReprojectGeometry(string wkt, string sourceEpsgCode, string targetEpsgCode)
         {
             var geometry = Wkt2Geometry(wkt);
 

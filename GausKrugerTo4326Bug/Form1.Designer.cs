@@ -45,14 +45,14 @@
             this.DestinationWktTextBox.Location = new System.Drawing.Point(381, 92);
             this.DestinationWktTextBox.Name = "DestinationWktTextBox";
             this.DestinationWktTextBox.Size = new System.Drawing.Size(187, 20);
-            this.DestinationWktTextBox.TabIndex = 1;
+            this.DestinationWktTextBox.TabIndex = 2;
             // 
             // ReprojectButton
             // 
             this.ReprojectButton.Location = new System.Drawing.Point(276, 152);
             this.ReprojectButton.Name = "ReprojectButton";
             this.ReprojectButton.Size = new System.Drawing.Size(75, 23);
-            this.ReprojectButton.TabIndex = 2;
+            this.ReprojectButton.TabIndex = 1;
             this.ReprojectButton.Text = "Reproject";
             this.ReprojectButton.UseVisualStyleBackColor = true;
             this.ReprojectButton.Click += new System.EventHandler(this.ReprojectButton_Click);
