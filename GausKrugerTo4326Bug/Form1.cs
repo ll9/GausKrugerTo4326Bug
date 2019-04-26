@@ -16,6 +16,9 @@ namespace GausKrugerTo4326Bug
         public Form1()
         {
             InitializeComponent();
+
+            SourceWktTextBox.Text = "POLYGON((12.312196686994866 47.87511651751136,12.292970612776116 47.86221904662349,12.332109406721429 47.851622294448454,12.349275544416741 47.86267972585108,12.336229279768304 47.87143185333576,12.312196686994866 47.87511651751136))";
+        
         }
 
         private void ReprojectButton_Click(object sender, EventArgs e)
@@ -23,7 +26,7 @@ namespace GausKrugerTo4326Bug
             var geometryConverter = new GeometryConverter();
 
             var sourceWkt = SourceWktTextBox.Text;
-            //var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 3857);
+            //var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 31462);
             var reprojectedWkt = geometryConverter.ReprojectGeometry(
                 sourceWkt,
                 // 4326
