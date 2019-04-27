@@ -36,20 +36,22 @@
             // SourceWktTextBox
             // 
             this.SourceWktTextBox.Location = new System.Drawing.Point(43, 92);
+            this.SourceWktTextBox.Multiline = true;
             this.SourceWktTextBox.Name = "SourceWktTextBox";
-            this.SourceWktTextBox.Size = new System.Drawing.Size(211, 20);
+            this.SourceWktTextBox.Size = new System.Drawing.Size(254, 48);
             this.SourceWktTextBox.TabIndex = 0;
             // 
             // DestinationWktTextBox
             // 
-            this.DestinationWktTextBox.Location = new System.Drawing.Point(381, 92);
+            this.DestinationWktTextBox.Location = new System.Drawing.Point(429, 92);
+            this.DestinationWktTextBox.Multiline = true;
             this.DestinationWktTextBox.Name = "DestinationWktTextBox";
-            this.DestinationWktTextBox.Size = new System.Drawing.Size(187, 20);
+            this.DestinationWktTextBox.Size = new System.Drawing.Size(231, 48);
             this.DestinationWktTextBox.TabIndex = 2;
             // 
             // ReprojectButton
             // 
-            this.ReprojectButton.Location = new System.Drawing.Point(276, 152);
+            this.ReprojectButton.Location = new System.Drawing.Point(328, 92);
             this.ReprojectButton.Name = "ReprojectButton";
             this.ReprojectButton.Size = new System.Drawing.Size(75, 23);
             this.ReprojectButton.TabIndex = 1;

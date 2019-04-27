@@ -13,12 +13,17 @@ namespace GausKrugerTo4326Bug
 {
     public partial class Form1 : Form
     {
+        private const string Proj4_4326 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ";
+        private const string Proj4_31462 = "+proj=tmerc +lat_0=0 +lon_0=6 +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs ";
+
         public Form1()
         {
             InitializeComponent();
 
-            SourceWktTextBox.Text = "POLYGON((12.312196686994866 47.87511651751136,12.292970612776116 47.86221904662349,12.332109406721429 47.851622294448454,12.349275544416741 47.86267972585108,12.336229279768304 47.87143185333576,12.312196686994866 47.87511651751136))";
-        
+            //SourceWktTextBox.Text = "LINESTRING(12.317 47.89,12.302 47.81,12.306 47.84)";
+            SourceWktTextBox.Text = "POINT(12.317 47.89,12.302 47.81,12.306 47.84)";
+
+
         }
 
         private void ReprojectButton_Click(object sender, EventArgs e)
@@ -29,10 +34,8 @@ namespace GausKrugerTo4326Bug
             //var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 31462);
             var reprojectedWkt = geometryConverter.ReprojectGeometry(
                 sourceWkt,
-                // 4326
-                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ",
-                // 31462
-                "+proj=tmerc +lat_0=0 +lon_0=6 +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs ");
+                Proj4_4326,
+                Proj4_31462);
             DestinationWktTextBox.Text = reprojectedWkt;
         }
     }
