@@ -20,7 +20,7 @@ namespace GausKrugerTo4326Bug.Utils
             return geom;
         }
 
-                public string Geometry2Wkt(Geometry geometry)
+        public string Geometry2Wkt(Geometry geometry)
         {
             var writer = new WKTWriter();
 
@@ -28,6 +28,7 @@ namespace GausKrugerTo4326Bug.Utils
             return wkt;
         }
 
+        // Source: https://gis.stackexchange.com/questions/127374/coordinate-transformation-reprojection-using-dotspatial
         private Geometry ReprojectGeometry(Geometry geometry, ProjectionInfo sourceProjectionInfo, ProjectionInfo targetProjectionInfo)
         {
             var cloneGeometry = geometry.Copy();
@@ -45,7 +46,17 @@ namespace GausKrugerTo4326Bug.Utils
                 counterY = counterY + 2;
             }
 
-            Reproject.ReprojectPoints(pointArray, zArray, sourceProjectionInfo, targetProjectionInfo, 0, (pointArray.Length / 2));
+            // Workaround because Reproject.ReprojectPoints cannot dealt with multiple points for some projections 
+            // Example: 4326 to 31462
+            double[] tmpCoordinates = new double[2];
+            for (int i = 0; i < pointArray.Length; i += 2)
+            {
+                tmpCoordinates[0] = pointArray[i];
+                tmpCoordinates[1] = pointArray[i + 1];
+                Reproject.ReprojectPoints(tmpCoordinates, new double[] { 0 }, sourceProjectionInfo, targetProjectionInfo, 0, 1);
+                pointArray[i] = tmpCoordinates[0];
+                pointArray[i + 1] = tmpCoordinates[1];
+            }
 
             counterX = 0;
             counterY = 1;
@@ -61,7 +72,6 @@ namespace GausKrugerTo4326Bug.Utils
             return cloneGeometry as Geometry;
         }
 
-        // Source: https://gis.stackexchange.com/questions/127374/coordinate-transformation-reprojection-using-dotspatial
         public Geometry ReprojectGeometry(Geometry geometry, int sourceEpsgCode, int targetEpsgCode)
         {
             var sourceProjection = ProjectionInfo.FromEpsgCode(sourceEpsgCode);

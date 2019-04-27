@@ -20,8 +20,7 @@ namespace GausKrugerTo4326Bug
         {
             InitializeComponent();
 
-            //SourceWktTextBox.Text = "LINESTRING(12.317 47.89,12.302 47.81,12.306 47.84)";
-            SourceWktTextBox.Text = "POINT(12.317 47.89,12.302 47.81,12.306 47.84)";
+            SourceWktTextBox.Text = "LINESTRING(12.317 47.89,12.302 47.81,12.306 47.84)";
 
 
         }
@@ -31,7 +30,6 @@ namespace GausKrugerTo4326Bug
             var geometryConverter = new GeometryConverter();
 
             var sourceWkt = SourceWktTextBox.Text;
-            //var reprojectedWkt = geometryConverter.ReprojectGeometry(sourceWkt, 4326, 31462);
             var reprojectedWkt = geometryConverter.ReprojectGeometry(
                 sourceWkt,
                 Proj4_4326,
